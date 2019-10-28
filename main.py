@@ -1,7 +1,16 @@
-import multiprocessing
-import threading
-from multiprocessing import Process,Manager
+try :
+    import multiprocessing
+except ImportError as error :
+    print(error)
+    print("Please Try Again After Installing Required Packages")
+try :
+    import threading
+    from multiprocessing import Process,Manager
+except ImportError as error :
+    print(error)
+    print("Please Try Again After Installing Required Packages")
 import subprocess
+import os
 
 def MainLoopConsole(cVar) :
     print("[+] Main Loop Console Process Started")
