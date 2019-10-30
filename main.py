@@ -28,7 +28,7 @@ def MainLoopConsole(cVar) :
             x = input(">>> ")
         except :
             print("[!] InputError")
-        print("[Echo] :",x)
+        print("[Dobby] : You Said",x)
     cVar['exit'] = 1 
     print("[*] Exit MainLoop Handle !") 
 
