@@ -5,7 +5,7 @@ except ImportError as error :
     print("Please Try Again After Installing 'threading'")
 try :
     import multiprocessing
-    from multiprocessing import Process,Manager
+    from multiprocessing import Process,Manager,Lock,Queue
 except ImportError as error :
     print(error)
     print("Please Try Again After Installing 'multiprocessing'")
@@ -16,15 +16,17 @@ except ImportError as error :
     print(error)
     print("Please Try Again After Installing Required Packages")
 
-def MainLoopConsole(cVar) :
+def MainLoopConsole(cVar,lock) :
     print("[+] Main Loop Console Process Started")
     x = " "
     while(x.lower()!='exit') :
+        lock.acquire()
         try:
             x = input(">>> ")
         except :
             print("[!] InputError")
         print("[Echo] :",x)
+    lock.release()
     cVar['exit'] = 1 
 
 def BackGroundHandle(cVar) :
@@ -42,7 +44,9 @@ def main() :
     cVar['errors'] = [0,0,0,0,0]
     cVar['entered'] = 0
 
-    mainLoopProcess = Process(target=MainLoopConsole,args=(cVar,))
+    lock = Lock()
+    
+    mainLoopProcess = Process(target=MainLoopConsole,args=(cVar,lock))
     bgProcess = Process(target=BackGroundHandle,args=(cVar,))
 
     Procs = [mainLoopProcess,bgProcess]
